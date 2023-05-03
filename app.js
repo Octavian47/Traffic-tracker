@@ -18,6 +18,8 @@ app.get('/', (req, res) => {
 });
 
 // Start the server listening on the specified port
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+const server = app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+  });
+  
+module.exports = server;
