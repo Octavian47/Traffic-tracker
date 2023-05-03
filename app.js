@@ -10,10 +10,12 @@ app.use(express.static('public'));
 
 // Require and include the tracking and stats modules
 const tracking = require('./track');
-const stats = require('./stats'); // Assuming you have saved the provided stats code as "stats.js"
+const improvedTracking = require('./improvedTracking');
+const stats = require('./stats'); 
 
 // Add the tracking and stats modules to the app instance
 tracking(app);
+improvedTracking(app);
 stats(app);
 
 // Test the app
