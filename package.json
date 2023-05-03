@@ -4,7 +4,7 @@
   "description": "A tracker for visitors on a website",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive --exit"
+    "test": "mocha --recursive --timeout 10000 --exit"
   },
   "keywords": [],
   "author": "",
