@@ -1,17 +1,21 @@
+// Import necessary modules
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const sinon = require('sinon');
 const { expect } = chai;
 chai.use(chaiHttp);
 
+// Import app and database connection
 const { app } = require('../app');
 const pool = require('../db_connection');
 
+// Define function to clean the database before each test
 const cleanDatabase = async () => {
   const connection = await pool.getConnection();
 
   try {
-    await connection.execute('SET FOREIGN_KEY_CHECKS = 0'); // Disable foreign key checks
+    // Disable foreign key checks and delete all rows from relevant tables
+    await connection.execute('SET FOREIGN_KEY_CHECKS = 0'); 
     await connection.execute('DELETE FROM page_visit');
     await connection.execute('DELETE FROM visits_version_improved');
     await connection.execute('DELETE FROM page');
@@ -23,11 +27,15 @@ const cleanDatabase = async () => {
   }
 };
 
+// Define tests for the stats controller
 describe('Stats Controller', () => {
+
+  // Clean the database before each test
   beforeEach(async () => {
     await cleanDatabase();
   });
 
+  // Restore all the stubs after each test
   afterEach(() => {
     sinon.restore();
   });
@@ -35,7 +43,6 @@ describe('Stats Controller', () => {
   it('should return visit statistics', (done) => {
 
     // Add seed data to the database
-    
     const startDate = '2023-05-01';
     const endDate = '2023-05-03';
 
@@ -64,11 +71,13 @@ describe('Stats Controller', () => {
         },
       ];
 
+    // Stub the database connection to return fake data
     sinon.stub(pool, 'getConnection').returns({
       execute: () => Promise.resolve([fakeData]),
       release: () => Promise.resolve(),
     });
 
+    // Define the expected response based on the fake data
     const expectedResponse = fakeData.map((row) => ({
         id: row.id,
         url: row.url,
@@ -81,6 +90,7 @@ describe('Stats Controller', () => {
         duration: row.duration,
       }));
 
+      // Make a request to the stats endpoint
       chai
       .request(app)
       .get('/stats')
@@ -92,6 +102,7 @@ describe('Stats Controller', () => {
         if (res.status !== 200) {
           console.error('Error in response:', res.body);
         }
+        // Assert that the response is as expected
         expect(err).to.be.null;
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('array');
@@ -100,6 +111,7 @@ describe('Stats Controller', () => {
       });
   });
 
+  // Test case to check if the API returns a 400 error when either the start or end date is missing
   it('should return 400 if startDate or endDate is missing', (done) => {
     chai
       .request(app)
@@ -112,17 +124,21 @@ describe('Stats Controller', () => {
       });
   });
 
+  // Test case to check if the API returns a 500 error when there is an error in fetching the visit 
   it('should return 500 if there is an error fetching visit statistics', (done) => {
     const startDate = '2023-05-01';
     const endDate = '2023-05-03';
   
+    // Create a fake database connection that will reject the execute() method with an error
     const fakeConnection = {
       execute: sinon.stub().rejects(new Error('Failed to fetch visit statistics')),
       release: sinon.stub().resolves(),
     };
   
+    // Stub the getConnection() method of the pool object to return the fake connection
     sinon.stub(pool, 'getConnection').resolves(fakeConnection);
   
+    // Make a request to the stats endpoint with the invalid dates
     chai
       .request(app)
       .get('/stats')
@@ -131,6 +147,7 @@ describe('Stats Controller', () => {
         expect(err).to.be.null;
         expect(res).to.have.status(500);
         expect(res.body).to.have.property('error', 'Failed to fetch visit statistics');
+        // Restore the stubbed getConnection() method to its original implementation
         pool.getConnection.restore();
         done();
       });
