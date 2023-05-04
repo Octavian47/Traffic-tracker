@@ -1,23 +1,21 @@
-// Import required modules
 const express = require('express');
-const trackingController = require('./Controllers/trackingController');
-
-// Create an instance of the Express application
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-// Serve static files from the public folder
 app.use(express.static('public'));
 
-// Set up the improvedTracking route
-app.get('/improvedTracking', trackingController.improvedTracking);
+// Import route files
+const trackingRoutes = require('./Routes/trackingRoutes');
+const statsRoutes = require('./Routes/statsRoutes');
 
-// Test the app
+// Use route files
+app.use('/', trackingRoutes);
+app.use('/stats', statsRoutes);
+
 app.get('/', (req, res) => {
   res.send('Hello, World!');
 });
 
-// Function to start the server
 function startServer() {
   const server = app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
@@ -25,10 +23,10 @@ function startServer() {
   return server;
 }
 
-// Start the server only if the script is executed directly
+let server;
+
 if (require.main === module) {
-  startServer();
+  server = startServer();
 }
 
-// Export the app for testing
-module.exports = app;
+module.exports = { app, server };

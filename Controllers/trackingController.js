@@ -12,6 +12,7 @@ exports.improvedTracking = async (req, res) => {
   const visitDate = new Date();
 
   const connection = await pool.getConnection();
+  
 
   try {
     const [visitRows] = await connection.execute(
@@ -27,8 +28,8 @@ exports.improvedTracking = async (req, res) => {
 
     if (visitRows.length === 0) {
       const [insertVisitResult] = await connection.execute(
-        'INSERT INTO visits_version_improved (ip, device_type, user_agent, device_info, visits, date) VALUES (?, ?, ?, ?, 1, ?)',
-        [ip, deviceType, userAgent, JSON.stringify(parser.getResult()), visitDate]
+        'INSERT INTO visits_version_improved (ip, device_type, user_agent, device_info, visits) VALUES (?, ?, ?, ?, 1)',
+        [ip, deviceType, userAgent, JSON.stringify(parser.getResult())]
       );
       visitId = insertVisitResult.insertId;
       newVisits = 1;
@@ -36,8 +37,8 @@ exports.improvedTracking = async (req, res) => {
       visitId = visitRows[0].id;
       newVisits = visitRows[0].visits + 1;
       await connection.execute(
-        'UPDATE visits_version_improved SET user_agent = ?, device_info = ?, visits = ?, date = ? WHERE id = ?',
-        [userAgent, JSON.stringify(parser.getResult()), newVisits, visitDate, visitId]
+        'UPDATE visits_version_improved SET user_agent = ?, device_info = ?, visits = ? WHERE id = ?',
+        [userAgent, JSON.stringify(parser.getResult()), newVisits, visitId]
       );
     }
 
@@ -54,11 +55,9 @@ exports.improvedTracking = async (req, res) => {
     }
 
     await connection.execute(
-      'INSERT INTO page_visit (visit_id, page_id, duration) VALUES (?, ?, ?)',
-      [visitId, pageId, timeOnPage]
+      'INSERT INTO page_visit (visit_id, page_id, duration, date) VALUES (?, ?, ?, ?)',
+      [visitId, pageId, timeOnPage, visitDate]
     );
-
-    res.status(200).json({ visitId });
   } catch (error) {
     console.error('Error tracking visit:', error);
     res.sendStatus(500);
@@ -66,4 +65,6 @@ exports.improvedTracking = async (req, res) => {
   } finally {
     await connection.release();
   }
+
+  res.status(200);
 };

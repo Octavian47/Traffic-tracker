@@ -1,55 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test Dashboard</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 1rem;
-      text-align: center;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 0.5rem;
-      text-align: left;
-    }
-    th {
-      background-color: #f2f2f2;
-    }
-  </style>
+	<title>Visit Statistics</title>
+	<style>
+		table {
+			border-collapse: collapse;
+			margin: 20px;
+		}
+
+		th, td {
+			border: 1px solid black;
+			padding: 10px;
+			text-align: left;
+		}
+	</style>
 </head>
 <body>
-  <h1>Simple Dashboard</h1>
-  <form id="date-form">
-    <label for="start-date">Start Date:</label>
-    <input type="date" id="start-date" name="start-date" required>
-    <label for="end-date">End Date:</label>
-    <input type="date" id="end-date" name="end-date" required>
-    <button type="submit">Fetch Data</button>
-  </form>
-  <table id="stats-table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>URL</th>
-        <th>IP</th>
-        <th>Device Type</th>
-        <th>User Agent</th>
-        <th>Visits</th>
-        <th>Date</th>
-      </tr>
-    </thead>
-    <tbody id="table-body">
-    </tbody>
-  </table>
-  <script src="dashboard.js"></script>
+	<h1>Visit Statistics</h1>
+	<form id="date-form">
+		<label for="start-date">Start Date:</label>
+		<input type="date" id="start-date" name="start-date">
+		<label for="end-date">End Date:</label>
+		<input type="date" id="end-date" name="end-date">
+		<button type="submit">Get Statistics</button>
+	</form>
+
+	<table id="stats-table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>URL</th>
+				<th>IP</th>
+				<th>Device Type</th>
+				<th>User Agent</th>
+				<th>Device Info</th>
+				<th>Visits</th>
+				<th>Date</th>
+				<th>Duration</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- Table rows will be dynamically generated using JavaScript -->
+		</tbody>
+	</table>
+
+	<script>
+		const form = document.getElementById('date-form');
+		const tableBody = document.querySelector('#stats-table tbody');
+
+		form.addEventListener('submit', async (event) => {
+			event.preventDefault();
+
+			// Get the start and end dates from the form
+			const startDate = document.getElementById('start-date').value;
+			const endDate = document.getElementById('end-date').value;
+
+			// Fetch the statistics data from the server
+			const response = await fetch(`/stats?startDate=${startDate}&endDate=${endDate}`);
+			const data = await response.json();
+
+			// Clear the table body
+			tableBody.innerHTML = '';
+
+			// Add a table row for each statistic
+			data.forEach((stat) => {
+				const row = tableBody.insertRow();
+				row.insertCell().textContent = stat.id;
+				row.insertCell().textContent = stat.url;
+				row.insertCell().textContent = stat.ip;
+				row.insertCell().textContent = stat.deviceType;
+				row.insertCell().textContent = stat.userAgent;
+				row.insertCell().textContent = JSON.stringify(stat.deviceInfo);
+				row.insertCell().textContent = stat.visits;
+				row.insertCell().textContent = new Date(stat.date).toLocaleString();
+				row.insertCell().textContent = `${stat.duration} seconds`;
+			});
+		});
+	</script>
 </body>
 </html>
