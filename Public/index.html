@@ -1,81 +1,23 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Visit Statistics</title>
-	<style>
-		table {
-			border-collapse: collapse;
-			margin: 20px;
-		}
-
-		th, td {
-			border: 1px solid black;
-			padding: 10px;
-			text-align: left;
-		}
-	</style>
-</head>
-<body>
-	<h1>Visit Statistics</h1>
-	<form id="date-form">
-		<label for="start-date">Start Date:</label>
-		<input type="date" id="start-date" name="start-date">
-		<label for="end-date">End Date:</label>
-		<input type="date" id="end-date" name="end-date">
-		<button type="submit">Get Statistics</button>
-	</form>
-
-	<table id="stats-table">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>URL</th>
-				<th>IP</th>
-				<th>Device Type</th>
-				<th>User Agent</th>
-				<th>Device Info</th>
-				<th>Visits</th>
-				<th>Date</th>
-				<th>Duration</th>
-			</tr>
-		</thead>
-		<tbody>
-			<!-- Table rows will be dynamically generated using JavaScript -->
-		</tbody>
-	</table>
-
-	<script>
-		const form = document.getElementById('date-form');
-		const tableBody = document.querySelector('#stats-table tbody');
-
-		form.addEventListener('submit', async (event) => {
-			event.preventDefault();
-
-			// Get the start and end dates from the form
-			const startDate = document.getElementById('start-date').value;
-			const endDate = document.getElementById('end-date').value;
-
-			// Fetch the statistics data from the server
-			const response = await fetch(`/stats?startDate=${startDate}&endDate=${endDate}`);
-			const data = await response.json();
-
-			// Clear the table body
-			tableBody.innerHTML = '';
-
-			// Add a table row for each statistic
-			data.forEach((stat) => {
-				const row = tableBody.insertRow();
-				row.insertCell().textContent = stat.id;
-				row.insertCell().textContent = stat.url;
-				row.insertCell().textContent = stat.ip;
-				row.insertCell().textContent = stat.deviceType;
-				row.insertCell().textContent = stat.userAgent;
-				row.insertCell().textContent = JSON.stringify(stat.deviceInfo);
-				row.insertCell().textContent = stat.visits;
-				row.insertCell().textContent = new Date(stat.date).toLocaleString();
-				row.insertCell().textContent = `${stat.duration} seconds`;
-			});
-		});
-	</script>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <title>Line Chart Visit Statistics</title>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <h1 class="navbar-item">Tracking Dashboard</h1>
+      </div>
+      <div class="navbar-menu">
+        <div class="navbar-end">
+          <a class="navbar-item" href="users-info.html">Users Info</a>
+          <a class="navbar-item" href="line-graph.html">Line Chart</a>
+          <a class="navbar-item" href="bar-chart.html">Bar Chart</a>
+        </div>
+      </div>
+    </nav>
+  </body>
 </html>
+

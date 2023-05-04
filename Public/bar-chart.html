@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Page Visit Statistics Bar Chart</title>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <h1 class="navbar-item">Bar Chart with number of visits per page </h1>
+      </div>
+      <div class="navbar-menu">
+        <div class="navbar-end">
+          <a class="navbar-item" href="users-info.html">Users Info</a>
+          <a class="navbar-item" href="line-graph.html">Line Chart</a>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="form-container">
+        <form id="stats-form">
+          <div class="form-row">
+            <label for="start-date">Start Date:</label>
+            <input type="date" id="start-date" name="start-date" required>
+          </div>
+          <div class="form-row">
+            <label for="end-date">End Date:</label>
+            <input type="date" id="end-date" name="end-date" required>
+          </div>
+          <div class="form-row">
+            <button type="submit">Get Stats</button>
+          </div>
+        </form>
+      </div>
+      <div id="bar-chart-container">
+        <canvas id="bar-chart"></canvas>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1"></script>
+    <script src="js/barChart.js"></script>
+  </body>
+</html>
