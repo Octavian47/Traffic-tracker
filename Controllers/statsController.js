@@ -26,7 +26,7 @@ exports.getStats = async (req, res) => {
       ip: row.ip,
       deviceType: row.device_type,
       userAgent: row.user_agent,
-      deviceInfo: JSON.parse(row.device_info),
+      deviceInfo: row.device_info ? JSON.parse(row.device_info) : null,
       visits: row.visits,
       date: row.date,
       duration: row.duration,
@@ -34,7 +34,7 @@ exports.getStats = async (req, res) => {
 
     res.json(stats);
   } catch (error) {
-    console.error('Error fetching visit statistics:', error);
+    console.error('Error in controller:', error);
     res.status(500).json({ error: 'Failed to fetch visit statistics' });
   } finally {
     await connection.release();
