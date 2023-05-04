@@ -2,13 +2,13 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Line Chart Visit Statistics</title>
+    <title>Unique Visits per Page</title>
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
     <nav class="navbar">
       <div class="navbar-brand">
-        <h1 class="navbar-item">Tracking Dashboard</h1>
+        <h1 class="navbar-item">Unique Visits per Page</h1>
       </div>
       <div class="navbar-menu">
         <div class="navbar-end">
@@ -18,6 +18,29 @@
         </div>
       </div>
     </nav>
+    <div class="container">
+      <div class="form-container">
+        <form id="unique-visits-form">
+          <div class="form-row">
+            <label for="start-date">Start Date:</label>
+            <input type="date" id="start-date" name="start-date" required>
+          </div>
+          <div class="form-row">
+            <label for="end-date">End Date:</label>
+            <input type="date" id="end-date" name="end-date" required>
+          </div>
+          <div class="form-row">
+            <button type="submit">Get Unique Visits</button>
+          </div>
+        </form>
+      </div>
+      <div id="unique-visits-bar-chart-container">
+        <canvas id="unique-visits-bar-chart"></canvas>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1"></script>
+    <script src="js/uniqueVisitsBarChart.js"></script>
+    
   </body>
 </html>
-
