@@ -110,6 +110,7 @@ Clone this repository on your local machine
 Navigate to the project directory and open a terminal
 
  To install the dependencies for this project, run the following command in your terminal:
+
        npm install
 
 This will install all the dependencies listed in the package.json file.
