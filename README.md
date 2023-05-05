@@ -16,7 +16,7 @@ To run this project, you will need to have the following software installed:
 
 You will also need to create a MySQL database called `traffic_tracker` and import the `traffic_tracker.sql` file located in the `database` directory of the project into the `traffic_tracker` database.
 
-Note: If you are using XAMPP, you can create the `traffic_tracker` database and import the SQL file using the instructions provided in the installation section. If you are using another software, refer to its documentation for instructions on creating a new database and importing an SQL file.
+Note: If you are using XAMPP, you can create the `traffic_tracker` database and import the SQL file using the instructions provided in the installation section. If you are using another software, refer to its documentation for instructions on creating a new database and importing an SQL file. Please to not forget to change the connection log in credentials in the db_connection.js if necessary. 
 
 ### Database Schema
 
@@ -67,47 +67,81 @@ Note: If you are using XAMPP, you can create the `traffic_tracker` database and 
 
 ### Empty Database SQL
 
--- Disable foreign key checks
-SET FOREIGN_KEY_CHECKS = 0;
+        -- Disable foreign key checks
+        SET FOREIGN_KEY_CHECKS = 0;
 
--- Drop foreign key constraint in page_visit table
-ALTER TABLE page_visit DROP FOREIGN KEY page_visit_ibfk_2;
+        -- Drop foreign key constraint in page_visit table
+        ALTER TABLE page_visit DROP FOREIGN KEY page_visit_ibfk_2;
 
--- Truncate page_visit and page tables
-TRUNCATE TABLE page_visit;
-TRUNCATE TABLE page;
+        -- Truncate page_visit and page tables
+        TRUNCATE TABLE page_visit;
+        TRUNCATE TABLE page;
 
--- Recreate foreign key constraint in page_visit table
-ALTER TABLE page_visit ADD CONSTRAINT page_visit_ibfk_2 FOREIGN KEY (page_id) REFERENCES page(id);
+        -- Recreate foreign key constraint in page_visit table
+        ALTER TABLE page_visit ADD CONSTRAINT page_visit_ibfk_2 FOREIGN KEY (page_id) REFERENCES page(id);
 
--- Enable foreign key checks again
-SET FOREIGN_KEY_CHECKS = 1;
+        -- Enable foreign key checks again
+        SET FOREIGN_KEY_CHECKS = 1;
 
 
 ## Installation
 
-[Describe the steps a user needs to take to install and run your project on their own machine.]
+### Set up the Client Side
+The client tracker is already set up (check up the Client-Tracking folder). In this case, it was build with simple JS to cover all of the browsers. There is also a jquery script, if you do not care about the old browsers.
+
+If you want to add it to another website please follow the following instructions: 
+
+1. Include the jQuery library in your HTML file
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+2. Include the traffic_tracker script
+   <script src="js/traffic_tracker_AJAX.js"></script>
+
+3. In the traffic_tracker script, please change the URL for your server
+   const serverUrl = 'http://localhost:3000/improvedTracking';
+
+### Server side 
+
+1. Clone this repository on your local machine
+
+2. Navigate to the project directory and open a terminal
+
+3. To install the dependencies for this project, run the following command in your terminal:
+       npm install
+
+This will install all the dependencies listed in the package.json file.
 
 ## Usage
 
-[Provide instructions for how to use your project, including any command-line arguments, web endpoints, or user interfaces.]
+### Server Side
+Open a terminal in the project folder and type in:
+    node app.js
 
-## Contributing
-
-[Outline how other developers can contribute to your project, including how to report bugs, submit feature requests, or make pull requests.]
-
-## License
-
-[Specify the license under which your project is released, including any restrictions or conditions.]
-
-## Acknowledgments
-
-[Give credit to any individuals, organizations, or open source projects that inspired or contributed to your project.]
+The application should start on your localhost.
+Access it on your browser. 
 
 ## Dependencies
 
-[Include a list of packages, libraries, or other dependencies required to run your project.]
+- [Express](web framework for Node.js)
+- [MySQL2](MySQL client for Node.js)
+- [UA-parser-js](library for parsing user-agent strings)
+- [Cookie-parser](middleware for parsing cookies)
+- [Body-parser](middleware for parsing request bodies)
 
 ## Development Dependencies
 
-[Include a list of packages, libraries, or other dependencies required for development or testing.]
+- [Mocha](JavaScript testing framework)
+- [Chai] (assertion library for Node.js)
+- [Chai-http](HTTP integration testing with Chai assertions)
+- [Supertest](library for testing HTTP requests/responses)
+
+
+## Testing 
+This project uses the Mocha testing framework, along with Chai and Sinon for assertions and test doubles. You can run the tests by executing the following command in the project directory in a terminal:
+
+    npm test
+
+The npm test command will execute all the test files located in the test/ directory.
+## License
+
+This project is licensed under the ISC License
