@@ -92,12 +92,15 @@ The client tracker is already set up (check up the Client-Tracking folder). In t
 If you want to add it to another website please follow the following instructions: 
 
 Include the jQuery library in your HTML file
+
            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 Include the traffic_tracker script
+
            <script src="js/traffic_tracker_AJAX.js"></script>
 
 In the traffic_tracker script, please change the URL for your server
+
            const serverUrl = 'http://localhost:3000/improvedTracking';
 
 ### Server side 
