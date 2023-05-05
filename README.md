@@ -20,45 +20,45 @@ Note: If you are using XAMPP, you can create the `traffic_tracker` database and 
 
 ### Database Schema
 
--- Create traffic_tracker database
-CREATE DATABASE traffic_tracker;
+        -- Create traffic_tracker database
+        CREATE DATABASE traffic_tracker;
 
--- Use traffic_tracker database
-USE traffic_tracker;
+        -- Use traffic_tracker database
+        USE traffic_tracker;
 
--- Create page table
-CREATE TABLE page (
-  id INT NOT NULL AUTO_INCREMENT,
-  url VARCHAR(255) NOT NULL,
-  title VARCHAR(255) NOT NULL,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+        -- Create page table
+        CREATE TABLE page (
+        id INT NOT NULL AUTO_INCREMENT,
+        url VARCHAR(255) NOT NULL,
+        title VARCHAR(255) NOT NULL,
+        PRIMARY KEY (id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Create visits_version_improved table
-CREATE TABLE visits_version_improved (
-  id INT NOT NULL AUTO_INCREMENT,
-  ip VARCHAR(45) NOT NULL,
-  device_type VARCHAR(255) NOT NULL,
-  user_agent VARCHAR(255) NOT NULL,
-  device_info TEXT NOT NULL,
-  visits INT NOT NULL,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+        -- Create visits_version_improved table
+        CREATE TABLE visits_version_improved (
+        id INT NOT NULL AUTO_INCREMENT,
+        ip VARCHAR(45) NOT NULL,
+        device_type VARCHAR(255) NOT NULL,
+        user_agent VARCHAR(255) NOT NULL,
+        device_info TEXT NOT NULL,
+        visits INT NOT NULL,
+        PRIMARY KEY (id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Create page_visit table
-CREATE TABLE page_visit (
-  id INT NOT NULL AUTO_INCREMENT,
-  visit_id INT NOT NULL,
-  page_id INT NOT NULL,
-  date_visited TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
-  duration INT NOT NULL,
-  date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-  PRIMARY KEY (id),
-  KEY visit_id (visit_id),
-  KEY page_id (page_id),
-  CONSTRAINT page_visit_ibfk_1 FOREIGN KEY (visit_id) REFERENCES visits_version_improved(id),
-  CONSTRAINT page_visit_ibfk_2 FOREIGN KEY (page_id) REFERENCES page(id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+        -- Create page_visit table
+        CREATE TABLE page_visit (
+        id INT NOT NULL AUTO_INCREMENT,
+        visit_id INT NOT NULL,
+        page_id INT NOT NULL,
+        date_visited TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
+        duration INT NOT NULL,
+        date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+        PRIMARY KEY (id),
+        KEY visit_id (visit_id),
+        KEY page_id (page_id),
+        CONSTRAINT page_visit_ibfk_1 FOREIGN KEY (visit_id) REFERENCES visits_version_improved(id),
+        CONSTRAINT page_visit_ibfk_2 FOREIGN KEY (page_id) REFERENCES page(id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 ### ERD
