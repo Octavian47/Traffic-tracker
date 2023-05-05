@@ -36,4 +36,4 @@ if (require.main === module) {
 }
 
 // Export the app and server objects for testing
-module.exports = { app, server };
+module.exports = { app, startServer };

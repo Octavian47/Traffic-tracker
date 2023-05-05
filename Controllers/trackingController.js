@@ -9,6 +9,13 @@ exports.improvedTracking = async (req, res) => {
   const timeOnPage = req.query.time;
   const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
+  
+  // Check if the required input parameters are valid
+  if (!pageUrl || !pageTitle || !userAgent || !timeOnPage) {
+    res.sendStatus(400);
+    return;
+  }
+
   // Use user agent parser to extract device type and other info
   const parser = new UAParser(userAgent);
   const deviceType = parser.getDevice().type || 'unknown';
@@ -17,10 +24,13 @@ exports.improvedTracking = async (req, res) => {
   const visitDate = new Date();
 
   // Establish database connection
+  
   const connection = await pool.getConnection();
+  
   
   try {
     // Check if there is an existing visit for this page from this device
+    
     const [visitRows] = await connection.execute(
       `SELECT visits_version_improved.id, visits_version_improved.visits, page.id AS pageId 
       FROM visits_version_improved 
@@ -30,16 +40,20 @@ exports.improvedTracking = async (req, res) => {
       [pageUrl, ip, deviceType]
     );
 
+    //console.log('After executing SELECT query');
+
     let visitId, newVisits;
 
     if (visitRows.length === 0) {
       // If there is no existing visit, insert a new one and set newVisits to 1
+      //console.log('Before executing INSERT INTO page query');
       const [insertVisitResult] = await connection.execute(
         'INSERT INTO visits_version_improved (ip, device_type, user_agent, device_info, visits) VALUES (?, ?, ?, ?, 1)',
         [ip, deviceType, userAgent, JSON.stringify(parser.getResult())]
       );
       visitId = insertVisitResult.insertId;
       newVisits = 1;
+      //console.log('After executing INSERT INTO page query');
     } else {
       // If there is an existing visit, update it and increment newVisits
       visitId = visitRows[0].id;
@@ -65,10 +79,12 @@ exports.improvedTracking = async (req, res) => {
     }
 
     // Insert a new page visit with the visit ID, page ID, time on page, and visit date
+    console.log('Before executing INSERT INTO page_visit query');
     await connection.execute(
       'INSERT INTO page_visit (visit_id, page_id, duration, date) VALUES (?, ?, ?, ?)',
       [visitId, pageId, timeOnPage, visitDate]
     );
+    console.log('After executing INSERT INTO page_visit query');
   } catch (error) {
     console.error('Error tracking visit:', error);
     // If there is an error, send a 500 error response and return
@@ -79,5 +95,5 @@ exports.improvedTracking = async (req, res) => {
     await connection.release();
   }
 
-  res.status(200);
+  res.sendStatus(200);
 };
