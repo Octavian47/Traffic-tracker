@@ -18,7 +18,12 @@ You will also need to create a MySQL database called `traffic_tracker` and impor
 
 Note: If you are using XAMPP, you can create the `traffic_tracker` database and import the SQL file using the instructions provided in the installation section. If you are using another software, refer to its documentation for instructions on creating a new database and importing an SQL file. Please to not forget to change the connection log in credentials in the db_connection.js if necessary. 
 
+## Installation
+
 ### Database Schema
+
+Set up a database using this schema, or import it from the sql file from the repository
+
 
         -- Create traffic_tracker database
         CREATE DATABASE traffic_tracker;
@@ -66,6 +71,7 @@ Note: If you are using XAMPP, you can create the `traffic_tracker` database and 
 ![Traffic Tracker ERD Diagram](./ERD/traffic_tracker_ERD.png)
 
 ### Empty Database SQL
+To empty the database
 
         -- Disable foreign key checks
         SET FOREIGN_KEY_CHECKS = 0;
@@ -83,8 +89,6 @@ Note: If you are using XAMPP, you can create the `traffic_tracker` database and 
         -- Enable foreign key checks again
         SET FOREIGN_KEY_CHECKS = 1;
 
-
-## Installation
 
 ### Set up the Client Side
 The client tracker is already set up (check up the Client-Tracking folder). In this case, it was build with simple JS to cover all of the browsers. There is also a jquery script, if you do not care about the old browsers.
