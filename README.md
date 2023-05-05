@@ -98,7 +98,7 @@ If you want to add it to another website please follow the following instruction
    <script src="js/traffic_tracker_AJAX.js"></script>
 
 3. In the traffic_tracker script, please change the URL for your server
-   const serverUrl = 'http://localhost:3000/improvedTracking';
+           const serverUrl = 'http://localhost:3000/improvedTracking';
 
 ### Server side 
 
@@ -114,7 +114,8 @@ This will install all the dependencies listed in the package.json file.
 ## Usage
 
 ### Server Side
-Open a terminal in the project folder and type in:
+Open a terminal in the project folder and type in the following command 
+
     node app.js
 
 The application should start on your localhost.
