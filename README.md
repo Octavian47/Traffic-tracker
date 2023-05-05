@@ -107,7 +107,7 @@ In the traffic_tracker script, please change the URL for your server
 
 Clone this repository on your local machine
 
-Navigate to the project directory and open a terminal
+Navigate in the project directory to the Server-Side folder, and and open a terminal
 
  To install the dependencies for this project, run the following command in your terminal:
 
@@ -118,7 +118,7 @@ This will install all the dependencies listed in the package.json file.
 ## Usage
 
 ### Server Side
-Open a terminal in the project folder and type in the following command 
+Open a terminal in the Server-Side folder and type in the following command 
 
     node app.js
 
@@ -142,7 +142,7 @@ Access it on your browser.
 
 
 ## Testing 
-This project uses the Mocha testing framework, along with Chai and Sinon for assertions and test doubles. You can run the tests by executing the following command in the project directory in a terminal:
+This project uses the Mocha testing framework, along with Chai and Sinon for assertions and test doubles. You can run the tests by executing the following command in the Server-Side directory in a terminal:
 
     npm test
 
