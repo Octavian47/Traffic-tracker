@@ -91,22 +91,22 @@ The client tracker is already set up (check up the Client-Tracking folder). In t
 
 If you want to add it to another website please follow the following instructions: 
 
-1. Include the jQuery library in your HTML file
-   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+Include the jQuery library in your HTML file
+           <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-2. Include the traffic_tracker script
-   <script src="js/traffic_tracker_AJAX.js"></script>
+Include the traffic_tracker script
+           <script src="js/traffic_tracker_AJAX.js"></script>
 
-3. In the traffic_tracker script, please change the URL for your server
+In the traffic_tracker script, please change the URL for your server
            const serverUrl = 'http://localhost:3000/improvedTracking';
 
 ### Server side 
 
-1. Clone this repository on your local machine
+Clone this repository on your local machine
 
-2. Navigate to the project directory and open a terminal
+Navigate to the project directory and open a terminal
 
-3. To install the dependencies for this project, run the following command in your terminal:
+ To install the dependencies for this project, run the following command in your terminal:
        npm install
 
 This will install all the dependencies listed in the package.json file.
