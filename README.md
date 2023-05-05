@@ -1,6 +1,4 @@
-# Project Title
-
-Website Traffic Tracker
+# Website Traffic Tracker
 
 ## Description
 
