@@ -2,7 +2,7 @@
 
 ## Description
 
-Website Traffic Tracker is a web application that tracks user visits to web pages. It records the time that each user spends on a web page and stores this data in a MySQL database, including the unique visits per page and the total number of visits per page. The application also provides a dashboard that displays statistics on page visits and time spent on each page, as well as the unique visits per page. Users can filter the dashboard by date range and page title, as well as view detailed information about each visit, such as the device information and the time spent on the page.
+Website Traffic Tracker is a web application that tracks user visits to web pages. It records the time that each user spends on a web page and stores this data in a MySQL database, including the unique visits per page and the total number of visits per page. The application also provides a dashboard that displays statistics on page visits and time spent on each page, as well as the unique visits per page. Users can filter the dashboard by date range, as well as view detailed information about each visit, such as the device information and the time spent on the page.
 
 ## Requirements
 
